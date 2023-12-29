@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+
+	<style>
+		/* Style the table */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		/* Style the table header */
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+			padding: 8px;
+			text-align: left;
+		}
+
+		/* Style the table rows */
+		td {
+			border: 1px solid #dddddd;
+			padding: 8px;
+		}
+
+		/* Style alternate rows */
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		/* Style the table heading */
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+		}
+	</style>
+</head>
+      
+<body>
+
+	<h1>This is index.html!</h1>
+	<table th:if="${appointmentList != null AND !appointmentList.empty}">
+		<tr th:each="s : ${appointmentList}">
+			<td th:text="${s.firstName}"></td>
+			<td th:text="${s.email}"></td>
+			<td th:text="${s.appointmentDate}"></td>
+			<td th:text="${s.appointmentTime}"></td>
+			<td><a th:href="@{/editAppointmentById/}+${s.id}">Edit</a></td>
+			<td><a th:href="@{/deleteAppointmentById/}+${s.id}">Delete</a></td>
+
+		</tr>
+	</table>
+	<br>
+	<hr><br>
+
+	<form method="post" action="" th:action="@{/insertAppointment}" th:object="${appointment}">
+		 <input type="hidden" name="id" th:field="*{id}" />
+		First Name: <input type="text" name="firstName" th:field="*{firstName}" /><br>
+		Email: <input type="email" name="email" th:field="*{email}" /><br>
+		Appointment Date: <input type="text" id="appointmentDate" name="appointmentDate"  th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly /><br>
+		Appointment Time: <input type="text" id="appointmentTime" name="appointmentTime"
+                        th:value="${#dates.format(#dates.createNow(), 'HH:mm:ss')}" readonly /><br>
+		<input type="submit" value="Go!" />
+	</form>    
+
+
+</body>
+
+</html>
